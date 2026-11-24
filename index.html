@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>CAEC Exam Simulator</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="extra.css" />
+</head>
+<body>
+
+<div id="access-gate">
+  <div class="gate-bg-shapes"><div class="shape shape-1"></div><div class="shape shape-2"></div><div class="shape shape-3"></div></div>
+  <div class="gate-card">
+    <div class="gate-logo"><div class="logo-badge">CAEC</div></div>
+    <h1 class="gate-title">Canadian Adult Education Credential</h1>
+    <p class="gate-subtitle">Exam Simulator</p>
+    <div class="gate-divider"></div>
+    <p class="gate-instruction">Enter your access code to begin</p>
+    <input type="text" id="access-code-input" class="gate-input" placeholder="Access Code" autocomplete="off" maxlength="20" spellcheck="false" />
+    <button id="access-btn" class="gate-btn">Start</button>
+    <p id="access-error" class="gate-error"></p>
+    <p class="gate-pool-note" id="gate-pool-note"></p>
+    <p class="gate-hint">Uprising Test Prep</p>
+  </div>
+</div>
+
+<div id="mode-screen" style="display:none">
+  <div class="mode-wrap">
+    <div class="res-badge">CAEC</div>
+    <h2 class="mode-h">Choose a practice sitting</h2>
+    <p class="mode-sub">Each subject is a separate test with its own timer, and each is passed on its own at 55 percent. Questions come in many answer formats, just like the real digital test.</p>
+    <div id="resume-box" style="display:none" class="resume-box"></div>
+    <div class="mode-grid" id="mode-grid"></div>
+    <p class="mode-pool-note" id="mode-pool-note"></p>
+  </div>
+</div>
+
+<div id="between-screen" style="display:none">
+  <div class="results-card"><div class="res-header"><div class="res-badge">CAEC</div>
+    <h2 id="btw-title" class="res-status"></h2><p id="btw-text" class="res-score"></p></div>
+    <button id="btw-go" class="res-btn">Start next section</button></div>
+</div>
+
+<div id="app" style="display:none">
+  <header class="top-bar">
+    <div class="bar-left"><span class="bar-logo">CAEC</span><span class="bar-title" id="sec-title">Exam Simulator</span></div>
+    <div class="bar-right">
+      <span class="bar-timer" id="timer-display">--:--</span>
+      <button class="bar-btn" id="calc-btn" style="display:none">Calculator</button>
+      <button class="bar-btn" id="flag-btn">Flag</button>
+      <button class="bar-btn bar-btn-primary" id="submit-btn"><span class="btn-full">Finish Section</span><span class="btn-short">Finish</span></button>
+    </div>
+  </header>
+  <div class="progress-strip"><div class="progress-bar" id="progress-bar"></div></div>
+  <main class="exam-main">
+    <div class="question-panel">
+      <div class="q-meta">
+        <span id="q-counter"></span>
+        <span class="q-pool-chip" id="q-pool-chip"></span>
+        <span id="q-domain" class="q-domain-tag"></span>
+        <span id="q-flag-indicator" class="flag-chip" style="display:none">Flagged</span>
+      </div>
+      <div id="q-cluster-wrap" class="cluster-wrap" style="display:none"></div>
+      <p id="question-text" class="q-text"></p>
+      <div id="q-image-wrap" style="display:none; margin-bottom:14px;"></div>
+      <div id="answer-area" class="answer-area"></div>
+      <div id="toast" class="toast" style="display:none"></div>
+      <div id="review-box" class="review-box" style="display:none"></div>
+      <div id="explanation-box" class="explanation-box" style="display:none">
+        <div class="explanation-label">Explanation</div>
+        <p id="explanation-text" class="explanation-text"></p>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <button class="nav-btn" id="prev-btn">&#8592; Prev</button>
+      <button class="nav-btn nav-btn-map" id="map-btn">Question Map</button>
+      <button class="nav-btn nav-btn-next" id="next-btn">Next &#8594;</button>
+    </div>
+  </main>
+</div>
+
+<div id="calc-panel" class="calc-panel" style="display:none">
+  <div class="calc-head"><span>Calculator</span><button id="calc-close" class="calc-x">&#x2715;</button></div>
+  <div id="calc-screen" class="calc-screen">0</div>
+  <div id="calc-keys" class="calc-keys"></div>
+</div>
+
+<div id="map-modal" style="display:none">
+  <div class="map-backdrop" id="map-backdrop"></div>
+  <div class="map-panel">
+    <div class="map-header"><span class="map-title">Question Map</span><button id="map-close" class="map-close-btn">&#x2715; Close</button></div>
+    <div class="map-legend">
+      <span class="leg-item"><span class="leg-swatch leg-answered"></span>Answered</span>
+      <span class="leg-item"><span class="leg-swatch leg-flagged"></span>Flagged</span>
+      <span class="leg-item"><span class="leg-swatch leg-unanswered"></span>Unanswered</span>
+    </div>
+    <div id="q-grid" class="q-grid"></div>
+  </div>
+</div>
+
+<div id="results-screen" style="display:none">
+  <div class="results-card">
+    <div class="res-header"><div class="res-badge">CAEC</div>
+      <h2 id="res-status" class="res-status"></h2><p id="res-score" class="res-score"></p></div>
+    <div id="res-domains" class="res-domains"></div>
+    <p class="res-note">The real CAEC reports each subject on this scale: 80 to 100 percent exceeds the minimum standard, 55 to 79 meets it, 40 to 54 is approaching it, and under 40 does not meet it. The Writing test is a separate task, practise it in the Writing Practice tool.</p>
+    <p class="mode-pool-note" id="res-pool-note"></p>
+    <button id="res-review-btn" class="res-btn">Review Answers</button>
+    <a id="res-writing" class="res-btn res-btn-secondary res-link" href="writing.html">Writing Practice</a>
+    <button id="res-restart-btn" class="res-btn res-btn-secondary">Choose Another Sitting</button>
+  </div>
+</div>
+
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
